@@ -31,6 +31,10 @@ class Status_model extends CI_Model
 	*/
 	public function get_status($id='',$limit='', $start='', $order_method='desc')
 	{
+		// **
+		// get user_id from session
+		$user_id = $this->session->userdata()['user_id'];
+
 		$this->db->select(
 			$this->status_table.".id, ".
 			$this->status_table.".name, ".
@@ -46,6 +50,12 @@ class Status_model extends CI_Model
 			$this->users_table,
 			$this->status_table.'.created_by = '.$this->users_table.'.username',
 			'left');
+		
+		// **
+		// if user is NOT an admin, get status which not 1
+		if ($user_id != 1) {
+			$this->db->where($this->status_table.'.admin_only !=', 1);
+		}
 
 		$this->db->where($this->status_table.'.deleted', '0');
 
