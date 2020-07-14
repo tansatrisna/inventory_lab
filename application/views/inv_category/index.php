@@ -1,5 +1,4 @@
 	<!-- =========================== CONTENT =========================== -->
-
 	<!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
@@ -16,55 +15,58 @@
 		<!-- Main content -->
 		<section class="content">
 			<?php echo $message;?>
+		
 
-			<!-- Insert New Data box -->
-			<div class="box">
-				<div class="box-header with-border">
-					<h3 class="box-title">Add Category
-					</h3>
+			<?php if ($this->ion_auth->user()->row()->user_id == 1): ?>
+				<!-- Insert New Data box -->
+				<div class="box">
+					<div class="box-header with-border">
+						<h3 class="box-title">Add Category
+						</h3>
 
-					<div class="box-tools pull-right">
-						<button class="btn btn-default btn-box-tool" title="Show / Hide" id="myboxwidget"><i class="fa fa-plus"></i> Show / Hide</button>
+						<div class="box-tools pull-right">
+							<button class="btn btn-default btn-box-tool" title="Show / Hide" id="myboxwidget"><i class="fa fa-plus"></i> Show / Hide</button>
+						</div>
 					</div>
-				</div>
-				<div class="box-body <?php if (!isset($open_form)){ echo "hide";} ?>" id="add_new">
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-						<form action="<?php echo base_url('categories/add') ?>" method="post" autocomplete="off" class="form form-horizontal">
-							<div class="form-group">
-								<label for="code" class="control-label col-md-2">* Code</label>
-								<div class="col-md-8 <?php if (form_error('code')) {echo "has-error";} ?>">
-									<input type="text" name="code" id="code" class="form-control" value="<?php echo set_value('code'); ?>" placeholder="Category code" required>
-									<?php //echo form_error('code'); ?>
+					<div class="box-body <?php if (!isset($open_form)){ echo "hide";} ?>" id="add_new">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<form action="<?php echo base_url('categories/add') ?>" method="post" autocomplete="off" class="form form-horizontal">
+								<div class="form-group">
+									<label for="code" class="control-label col-md-2">* Code</label>
+									<div class="col-md-8 <?php if (form_error('code')) {echo "has-error";} ?>">
+										<input type="text" name="code" id="code" class="form-control" value="<?php echo set_value('code'); ?>" placeholder="Category code" required>
+										<?php //echo form_error('code'); ?>
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label for="name" class="control-label col-md-2">* Name</label>
-								<div class="col-md-8 <?php if (form_error('name')) {echo "has-error";} ?>">
-									<input type="text" name="name" id="name" class="form-control" value="<?php echo set_value('name'); ?>" placeholder="Category Name" required>
+								<div class="form-group">
+									<label for="name" class="control-label col-md-2">* Name</label>
+									<div class="col-md-8 <?php if (form_error('name')) {echo "has-error";} ?>">
+										<input type="text" name="name" id="name" class="form-control" value="<?php echo set_value('name'); ?>" placeholder="Category Name" required>
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label for="description" class="control-label col-md-2">Description</label>
-								<div class="col-md-8">
-									<textarea name="description" id="description" class="form-control text_editor" rows="4" style="resize:vertical; min-height:100px; max-height:200px;"><?php echo set_value('description'); ?></textarea>
+								<div class="form-group">
+									<label for="description" class="control-label col-md-2">Description</label>
+									<div class="col-md-8">
+										<textarea name="description" id="description" class="form-control text_editor" rows="4" style="resize:vertical; min-height:100px; max-height:200px;"><?php echo set_value('description'); ?></textarea>
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-md-8 col-md-offset-2">
-									<button type="submit" class="btn btn-primary" onclick="return confirm('Save your data?')">Submit</button>
+								<div class="form-group">
+									<div class="col-md-8 col-md-offset-2">
+										<button type="submit" class="btn btn-primary" onclick="return confirm('Save your data?')">Submit</button>
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-md-8 col-md-offset-2">
-								  <p class="help-block">(*) Mandatory</p>
+								<div class="form-group">
+									<div class="col-md-8 col-md-offset-2">
+									  <p class="help-block">(*) Mandatory</p>
+									</div>
 								</div>
-							</div>
-						</form>
+							</form>
+						</div>
 					</div>
+					<!-- /.box-body -->
 				</div>
-				<!-- /.box-body -->
-			</div>
-			<!-- /.box -->
+				<!-- /.box -->
+			<?php endif ?>
 
 			<!-- Default box -->
 			<div class="box box-primary">
@@ -84,7 +86,9 @@
 									<th>Code</th>
 									<th>Name</th>
 									<th>Description</th>
-									<th>#</th>
+									<?php if ($this->ion_auth->user()->row()->user_id == 1): ?>
+										<th>#</th>
+									<?php endif ?>
 								</tr>
 							</thead>
 							<tbody>
@@ -94,15 +98,19 @@
 									<td><?php echo $data->code; ?></td>
 									<td><?php echo $data->name; ?></td>
 									<td><?php echo $data->description; ?></td>
-									<td width="15%">
-										<form action="<?php echo base_url('categories/delete/'.$data->id) ?>" method="post" autocomplete="off">
-											<div class="btn-group-vertical">
-												<a class="btn btn-sm btn-primary" href="<?php echo base_url('categories/edit/'.$data->id) ?>" role="button"><i class="fa fa-pencil"></i> Edit</a>
-												<input type="hidden" name="id" value="<?php echo $data->id; ?>">
-												<button type="submit" class="btn btn-sm btn-danger" role="button" onclick="return confirm('Delete this data?')"><i class="fa fa-trash"></i> Delete</button>
-											</div>
-										</form>
-									</td>
+									
+									<?php if ($this->ion_auth->user()->row()->user_id == 1): ?>
+										<td width="15%">
+											<form action="<?php echo base_url('categories/delete/'.$data->id) ?>" method="post" autocomplete="off">
+												<div class="btn-group-vertical">
+													<a class="btn btn-sm btn-primary" href="<?php echo base_url('categories/edit/'.$data->id) ?>" role="button"><i class="fa fa-pencil"></i> Edit</a>
+													<input type="hidden" name="id" value="<?php echo $data->id; ?>">
+													<button type="submit" class="btn btn-sm btn-danger" role="button" onclick="return confirm('Delete this data?')"><i class="fa fa-trash"></i> Delete</button>
+												</div>
+											</form>
+										</td>
+									<?php endif ?>
+									
 								</tr>
 								<?php endforeach ?>
 							<?php else: ?>
