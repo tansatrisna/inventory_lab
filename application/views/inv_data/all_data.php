@@ -56,9 +56,13 @@
 										<form action="<?php echo base_url('inventory/delete/'.$data->code) ?>" method="post" autocomplete="off">
 											<div class="btn-group-vertical">
 												<a class="btn btn-sm btn-default" href="<?php echo base_url('inventory/detail/'.$data->code) ?>" role="button"><i class="fa fa-eye"></i> Detail</a>
-												<a class="btn btn-sm btn-primary" href="<?php echo base_url('inventory/edit/'.$data->code) ?>" role="button"><i class="fa fa-pencil"></i> Edit</a>
-												<input type="hidden" name="id" value="<?php echo $data->id; ?>">
-												<button type="submit" class="btn btn-sm btn-danger" role="button" onclick="return confirm('Delete this data?')"><i class="fa fa-trash"></i> Delete</button>
+												
+												<?php if ($this->ion_auth->user()->row()->user_id == 1): ?>
+													<a class="btn btn-sm btn-primary" href="<?php echo base_url('inventory/edit/'.$data->code) ?>" role="button"><i class="fa fa-pencil"></i> Edit</a>
+													<input type="hidden" name="id" value="<?php echo $data->id; ?>">
+													<button type="submit" class="btn btn-sm btn-danger" role="button" onclick="return confirm('Delete this data?')"><i class="fa fa-trash"></i> Delete</button>
+												<?php endif ?>
+
 											</div>
 										</form>
 									</td>
